@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--
+       说明：
+       1、日志级别及文件
+           日志记录采用分级记录，级别与日志文件名相对应，不同级别的日志信息记录到不同的日志文件中
+           例如：error级别记录到log_error_xxx.log或log_error.log（该文件为当前记录的日志文件），而log_error_xxx.log为归档日志，
+           日志文件按日期记录，同一天内，若日志文件大小等于或大于2M，则按0、1、2...顺序分别命名
+           例如log-level-2013-12-21.0.log
+           其它级别的日志也是如此。
+       2、文件路径
+           若开发、测试用，在Eclipse中运行项目，则到Eclipse的安装路径查找logs文件夹，以相对路径../logs。
+           若部署到Tomcat下，则在Tomcat下的logs文件中
+       3、Appender
+           FILEERROR对应error级别，文件名以log-error-xxx.log形式命名
+           FILEWARN对应warn级别，文件名以log-warn-xxx.log形式命名
+           FILEINFO对应info级别，文件名以log-info-xxx.log形式命名
+           FILEDEBUG对应debug级别，文件名以log-debug-xxx.log形式命名
+           stdout将日志信息输出到控制上，为方便开发测试使用
+    -->
+    <!-- 上下文名 -->
+    <contextName>MaterialManagement</contextName>
+
+    <property name="LOG_PATH" value="${user.home}/MaterialManagement/log"/>
+
+    <!-- 文件-异常 -->
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${LOG_PATH}/log_error.log</file>
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 除按日志记录之外，还配置了日志文件不能超过指定大小，若超过指定大小，日志文件会以索引0开始，命名日志文件，例如log-error-2017-12-07.0.log -->
+            <fileNamePattern>${LOG_PATH}/error/log-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>128KB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+        <!-- 日志文件的格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--增加了自定义的参数IP和操作主体 -->
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} | %5.5level | %10.10thread | %4L: %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <!-- 此日志文件只记录ERROR级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 文件-警告 -->
+    <appender name="FILE_WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/log_warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/warn/log-warn-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>128KB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} | %5.5level | %10.10thread | %4L: %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 文件-信息 -->
+    <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/log_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/info/log-info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>128KB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%date表示日期, $ip 标识日志产生的IP, %level：级别从左显示5个字符宽度, %thread表示线程名, %msg：日志消息，%n是换行符 -->
+            <pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} | %5.5level | %10.10thread | %4L: %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 控制台 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%cyan(%date{yyyy-MM-dd HH:mm:ss.SSS}) | %highlight(%5.5level) | %boldYellow(%10.10thread) | %boldGreen(%30.30logger) |%magenta(%4L): %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--&lt;!&ndash;输出到数据库 &ndash;&gt;-->
+    <!--<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">-->
+        <!--&lt;!&ndash; 过滤掉非自定义格式的日志 &ndash;&gt;-->
+        <!--<filter class="com.htjn.assertManagementnagement.filter.LogFilter" />-->
+        <!--<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
+            <!--&lt;!&ndash;这里的数据库配置与运行项目的环境配置文件中一致 &ndash;&gt;-->
+            <!--<driverClass>com.mysql.jdbc.Driver</driverClass>-->
+            <!--<url>jdbc:mysql://localhost:3306/LM</url>-->
+            <!--<user>root</user>-->
+            <!--<password>1995</password>-->
+        <!--</connectionSource>-->
+    <!--</appender>-->
+
+    <logger name="root" level="INFO"/>
+    <logger name="com.htjn" level="DEBUG"/>
+    <!--<logger name="org.hibernate.tool.hbm2ddl" level="OFF"/>-->
+    <logger name="springfox.documentation" level="WARN"/>
+
+    <root level="INFO">
+        <!--<appender-ref ref="FILE_ERROR"/>-->
+        <!--<appender-ref ref="FILE_WARN"/>-->
+        <!--<appender-ref ref="FILE_INFO"/>-->
+        <appender-ref ref="CONSOLE"/>
+        <!--<appender-ref ref="DB"/>-->
+    </root>
+</configuration>

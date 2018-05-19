@@ -1,0 +1,48 @@
+#开发环境配置文件
+server:
+  #端口号
+  port: 8888
+  session:
+    timeout: 600 #设置会话过期时间为10分钟
+spring:
+  resources:
+    chain:
+      strategy:
+        content:
+          paths: /**
+      enabled: true
+    static-locations: classpath:/META-INF/resources/, classpath:/resources/, classpath:/static/, classpath:/public/
+  mvc:
+    static-path-pattern: /**  #静态资源映射
+  thymeleaf:
+    prefix: classpath:/templates/
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/asset?serverTimezone=GMT%2B8&characterEncoding=utf-8  #本地数据库地址，数据库自己建
+    username: root #连接本地数据库使用的账号
+    password: 1995 #密码
+    schema: import.sql
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+  jackson:
+    serialization:
+      indent-output: true
+    date-format: yyyy-MM-dd HH:mm:ss #设置@ResponseBody中返回数据中的时间格式
+    time-zone: GMT+8
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+logging:
+  config: classpath:logback-spring.xml
+
+#当天内允许登录错误次数
+loginErrorTimes: 5
+#设置用户被锁定后自动解锁时间，单位：分钟
+autoUnlock: 3
