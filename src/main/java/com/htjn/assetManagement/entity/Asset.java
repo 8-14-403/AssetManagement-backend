@@ -16,7 +16,7 @@ public class Asset {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "assert_id", length = 32)
+    @Column(name = "assert_id", length = 36)
     private String id;
     @Column(name = "assets_type", length = 32)
     private String assetsType;  //资产类别

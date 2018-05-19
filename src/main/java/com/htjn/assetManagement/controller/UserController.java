@@ -54,8 +54,7 @@ public class UserController {
     @PostMapping(value = "/saveUser", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public @ResponseBody
     Result saveUser(@RequestBody Users user,
-                    @RequestParam("admin") boolean admin,
-                    HttpServletRequest request) throws Exception {
+                    @RequestParam("admin") boolean admin) {
 
         userService.save(user, admin);
         return ResultUtil.success(ResultEnum.SUCCESS, null);
@@ -63,7 +62,7 @@ public class UserController {
 
     @ApiOperation(value = "更新用户")
     @PutMapping(value = "/updateUser", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public @ResponseBody Result updateUser(@RequestBody Users user, HttpServletRequest request) throws Exception {
+    public @ResponseBody Result updateUser(@RequestBody Users user) {
         userService.update(user);
         return ResultUtil.success(ResultEnum.SUCCESS, null);
     }
@@ -81,19 +80,19 @@ public class UserController {
 
     @GetMapping(value = "/getAllUsers")
     @ApiOperation(value = "获取所有用户")
-    public @ResponseBody Result getAllUser() throws Exception {
+    public @ResponseBody Result getAllUser() {
         return ResultUtil.success(ResultEnum.SUCCESS, userService.getAll());
     }
 
     @ApiOperation(value = "获取单个用户")
     @GetMapping(value = "/getOneUser")
-    public @ResponseBody Result getOneUser(@RequestParam("userId") String userId) throws Exception {
+    public @ResponseBody Result getOneUser(@RequestParam("userId") String userId) {
         return ResultUtil.success(ResultEnum.SUCCESS, userService.getOne(userId));
     }
 
     @ApiOperation(value = "删除用户")
     @DeleteMapping(value = "/deleteUser")
-    public @ResponseBody Result deleteUser(@RequestParam("userId") String userId, HttpServletRequest request) throws Exception {
+    public @ResponseBody Result deleteUser(@RequestParam("userId") String userId) {
         userService.remove(userId);
         return ResultUtil.success(ResultEnum.SUCCESS, null);
     }
