@@ -1,9 +1,10 @@
 package com.htjn.assetManagement.service;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.htjn.assetManagement.entity.Asset;
 import com.htjn.assetManagement.repository.AssetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,10 @@ public class AssetService {
 
     public List<Asset> getAll(){
         return assetRepository.findAll();
+    }
+
+    public Page<Asset> getAll(Pageable pageable){
+        return assetRepository.findAll(pageable);
     }
 
     public Asset save(Asset asset){

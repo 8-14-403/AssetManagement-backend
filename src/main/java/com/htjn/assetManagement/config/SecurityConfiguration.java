@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 /**
  * Spring Security配置类
  *
- * @author 何孟海
  */
 @Configuration
 @EnableWebSecurity
@@ -48,14 +47,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // 以下语义为，所有请求系统任意资源(/**)的用户，都必须持有管理员权限
         // 此处请自行更改为相应安全措施
         http
-                .authorizeRequests()
+/*                .authorizeRequests()
                     .antMatchers("/").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
                 .and()
                 .httpBasic()
-                .and()
+                .and()*/
                 .csrf().disable();
 
     }

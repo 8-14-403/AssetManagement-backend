@@ -10,18 +10,18 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "assert")
+@Table(name = "asset")
 public class Asset {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @Column(name = "assert_id", length = 36)
+    @Column(name = "asset_id", length = 36)
     private String id;
-    @Column(name = "assets_type", length = 32)
-    private String assetsType;  //资产类别
-    @Column(name = "assert_code", nullable = false, length = 32)
-    private String assertCode; //资产编号
+    @Column(name = "asset_type", length = 32)
+    private String assetType;  //资产类别
+    @Column(name = "asset_code", nullable = false, length = 32)
+    private String assetCode; //资产编号
     @Column(name = "company_number", length = 32)
     private String companyNumber;  //单位编号
     @Column(name = "device_name", nullable = false, length = 40)
@@ -60,20 +60,20 @@ public class Asset {
         this.id = id;
     }
 
-    public String getAssetsType() {
-        return assetsType;
+    public String getAssetType() {
+        return assetType;
     }
 
-    public void setAssetsType(String assetsType) {
-        this.assetsType = assetsType;
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
     }
 
-    public String getAssertCode() {
-        return assertCode;
+    public String getAssetCode() {
+        return assetCode;
     }
 
-    public void setAssertCode(String assertCode) {
-        this.assertCode = assertCode;
+    public void setAssetCode(String assetCode) {
+        this.assetCode = assetCode;
     }
 
     public String getCompanyNumber() {
@@ -192,8 +192,8 @@ public class Asset {
     public String toString() {
         return "Asset{" +
                 "id='" + id + '\'' +
-                ", assetsType='" + assetsType + '\'' +
-                ", assertCode='" + assertCode + '\'' +
+                ", assetType='" + assetType + '\'' +
+                ", assetCode='" + assetCode + '\'' +
                 ", companyNumber='" + companyNumber + '\'' +
                 ", deviceName='" + deviceName + '\'' +
                 ", model='" + model + '\'' +

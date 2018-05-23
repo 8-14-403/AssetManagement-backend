@@ -8,9 +8,13 @@ import com.htjn.assetManagement.util.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.xml.bind.ValidationEvent;
 
 @RestController
 @RequestMapping(value = "asset")
@@ -35,7 +41,13 @@ public class AssetControl {
 
     @GetMapping(value = "/getAll")
     @ApiOperation(value = "查询所有资产信息")
-    public @ResponseBody Result getAllMaterial(){
+    public @ResponseBody Result getAll(@RequestParam(value = "page", required = false) Integer page,
+                                       @RequestParam(value = "size", defaultValue = "10") Integer size){
+        if (page != null && page >= 0) {
+            Sort sort = new Sort(Sort.Direction.DESC, "updateTime");
+            Pageable pageable = new PageRequest(page, size, sort);
+            return ResultUtil.success(ResultEnum.SUCCESS, assetService.getAll(pageable));
+        }
         return ResultUtil.success(ResultEnum.SUCCESS, assetService.getAll());
     }
 
@@ -51,9 +63,9 @@ public class AssetControl {
         return ResultUtil.success(ResultEnum.SUCCESS, assetService.update(asset));
     }
 
-    @DeleteMapping(value = "/deleteAsset")
+    @DeleteMapping(value = "/deleteAsset/{assetId}")
     @ApiOperation(value = "删除资产信息")
-    public @ResponseBody Result delete(@RequestParam("assetId") String id){
+    public @ResponseBody Result delete(@PathVariable("assetId") String id){
         assetService.deleteById(id);
         return ResultUtil.success(ResultEnum.SUCCESS, null);
     }
