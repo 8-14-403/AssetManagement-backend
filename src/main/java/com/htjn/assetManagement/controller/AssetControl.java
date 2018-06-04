@@ -3,6 +3,7 @@ package com.htjn.assetManagement.controller;
 import com.htjn.assetManagement.entity.Asset;
 import com.htjn.assetManagement.entity.ResultEnum;
 import com.htjn.assetManagement.service.AssetService;
+import com.htjn.assetManagement.util.CommonUtils;
 import com.htjn.assetManagement.util.Result;
 import com.htjn.assetManagement.util.ResultUtil;
 import io.swagger.annotations.Api;
@@ -22,8 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.xml.bind.ValidationEvent;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "asset")
@@ -68,5 +72,19 @@ public class AssetControl {
     public @ResponseBody Result delete(@PathVariable("assetId") String id){
         assetService.deleteById(id);
         return ResultUtil.success(ResultEnum.SUCCESS, null);
+    }
+
+    @PostMapping(value = "/importExcel")
+    @ApiOperation(value = "导入excel")
+    public @ResponseBody Result importExcel(@RequestParam("file") MultipartFile[] files) throws IOException {
+        List<Asset> assets = new ArrayList<>();
+        if ( files != null && files.length > 0) {
+            for (MultipartFile file : files) {
+                assets.addAll(CommonUtils.readXls(file.getInputStream()));
+            }
+        } else {
+            throw new RuntimeException("导入的表格不存在或内容为空");
+        }
+        return ResultUtil.success(ResultEnum.SUCCESS, assetService.save(assets));
     }
 }

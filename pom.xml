@@ -8,7 +8,7 @@
     <artifactId>materialManagement</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
-    <name>物资管理系统</name>
+    <name>固定资产管理系统</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -57,7 +57,12 @@
             <!--<artifactId>lombok</artifactId>-->
             <!--<scope>provided</scope>-->
         <!--</dependency>-->
-
+        <!-- excel导入导出依赖 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.9</version>
+        </dependency>
         <!--测试环境依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
