@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "asset")
-@Api("物资相关接口")
+@Api("固定资产相关接口")
 public class AssetControl {
 
     private final AssetService assetService;
@@ -74,6 +75,14 @@ public class AssetControl {
         return ResultUtil.success(ResultEnum.SUCCESS, null);
     }
 
+    @DeleteMapping(value = "/deleteAssets" , produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "批量删除资产信息")
+    public @ResponseBody Result deleteInBatch(@RequestBody List<Asset> assets){
+        assetService.deleteInBatch(assets);
+        return ResultUtil.success(ResultEnum.SUCCESS, null);
+    }
+
+
     @PostMapping(value = "/importExcel")
     @ApiOperation(value = "导入excel")
     public @ResponseBody Result importExcel(@RequestParam("file") MultipartFile[] files) throws IOException {
@@ -86,5 +95,15 @@ public class AssetControl {
             throw new RuntimeException("导入的表格不存在或内容为空");
         }
         return ResultUtil.success(ResultEnum.SUCCESS, assetService.save(assets));
+    }
+
+    @GetMapping(value = "/getByCondition")
+    @ApiOperation(value = "条件模糊查询资产信息")
+    public @ResponseBody Result getByCondition(@RequestParam("condition") String condition,
+                                               @RequestParam(value = "page", required = false) Integer page,
+                                               @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        Sort sort = new Sort(Sort.Direction.DESC, "updateTime");
+        Pageable pageable = new PageRequest(page, size, sort);
+        return ResultUtil.success(ResultEnum.SUCCESS, assetService.getByCondition(condition, pageable));
     }
 }

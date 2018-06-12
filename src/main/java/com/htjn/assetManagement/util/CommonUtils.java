@@ -45,78 +45,85 @@ public class CommonUtils {
                 // 0学号 1姓名 2学院 3课程名 4 成绩
                 // for (int cellNum = 0; cellNum <=4; cellNum++) {
                 Cell type = row.getCell(0);
-                if (type == null) {
-                    continue;
+                if (type != null) {
+                    asset.setAssetType(type.getStringCellValue());
                 }
-                asset.setAssetType(type.getStringCellValue());
+
                 Cell code = row.getCell(1);
-                if (code == null) {
-                    continue;
+                if (code != null) {
+                    asset.setAssetCode(code.getStringCellValue());
                 }
-                asset.setAssetCode(code.getStringCellValue());
+
                 Cell company = row.getCell(2);
-                if (company == null) {
-                    continue;
+                if (company != null) {
+                    asset.setCompanyNumber(company.getStringCellValue());
                 }
-                asset.setCompanyNumber(company.getStringCellValue());
+
                 Cell device = row.getCell(3);
-                if (device == null) {
-                    continue;
+                if (device != null) {
+                    asset.setDeviceName(device.getStringCellValue());
                 }
-                asset.setDeviceName(device.getStringCellValue());
+
                 Cell model = row.getCell(4);
-                if (model == null) {
-                    continue;
+                if (model != null) {
+                    asset.setModel(model.getStringCellValue());
                 }
-                asset.setModel(model.getStringCellValue());
+
                 Cell country = row.getCell(5);
-                if (country == null) {
-                    continue;
+                if (country != null) {
+                    asset.setCountry(country.getStringCellValue());
                 }
-                asset.setCountry(country.getStringCellValue());
+
                 Cell manufacturer = row.getCell(6);
-                if (manufacturer == null) {
-                    continue;
+                if (manufacturer != null) {
+                    asset.setManufacturer(manufacturer.getStringCellValue());
                 }
-                asset.setManufacturer(manufacturer.getStringCellValue());
+
                 Cell factoryNumber = row.getCell(7);
-                if (factoryNumber == null) {
-                    continue;
+                if (factoryNumber != null) {
+                    asset.setFactoryNumber(factoryNumber.getStringCellValue());
                 }
-                asset.setFactoryNumber(factoryNumber.getStringCellValue());
+
                 Cell department = row.getCell(8);
-                if (department == null) {
-                    continue;
+                if (department != null) {
+                    asset.setDepartment(department.getStringCellValue());
                 }
-                asset.setDepartment(department.getStringCellValue());
+
                 Cell user = row.getCell(9);
-                if (user == null) {
-                    continue;
+                if (user != null) {
+                    asset.setUser(user.getStringCellValue());
                 }
-                asset.setUser(user.getStringCellValue());
+
                 Cell originalValue = row.getCell(10);
-                if (originalValue == null) {
-                    continue;
+                if (originalValue != null) {
+                    asset.setOriginalValue(originalValue.getStringCellValue());
                 }
-                asset.setOriginalValue(originalValue.getStringCellValue());
+
                 Cell project = row.getCell(11);
-                if (project == null) {
-                    continue;
+                if (project != null) {
+                    asset.setProject(project.getStringCellValue());
                 }
-                asset.setProject(project.getStringCellValue());
+
                 Cell number = row.getCell(12);
-                if (number == null) {
-                    continue;
+                if (number != null) {
+                    asset.setNumber((int) number.getNumericCellValue());
                 }
-                asset.setNumber((int) number.getNumericCellValue());
+
                 Cell comment = row.getCell(13);
-                if (comment == null) {
-                    continue;
+                if (comment != null) {
+                    asset.setComment(comment.getStringCellValue());
                 }
-                asset.setComment(comment.getStringCellValue());
+
                 list.add(asset);
             }
         }
         return list;
+    }
+
+    public static String transference(String input) {
+        input = input.replaceAll("\\\\" , "\\\\\\\\");
+        input = input.replaceAll("%", "\\%");
+        input = input.replaceAll("_", "\\_");
+        return input;
     }
 }

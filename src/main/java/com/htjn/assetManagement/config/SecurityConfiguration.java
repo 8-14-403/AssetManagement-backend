@@ -52,6 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // 此处请自行更改为相应安全措施
         http
                 .authorizeRequests()
+                    .antMatchers("/static/**").permitAll()
                     .antMatchers("/login.html").permitAll()
                     .antMatchers("/main.html").hasRole("ADMIN")
                     .anyRequest().authenticated()

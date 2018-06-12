@@ -52,6 +52,9 @@ public class Asset {
     private Date updateTime; //更新时间
 
 
+    public Asset() {
+    }
+
     public String getId() {
         return id;
     }
