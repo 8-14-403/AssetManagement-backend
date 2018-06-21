@@ -30,9 +30,8 @@
 #### 过滤器层
 
     同传统的过滤器(Filter)一样，每个过滤器需要实现javax.servlet.Filter。所有的过滤器都存放在
-    com.phy.license.filter包中。由于Spring Boot内部实现了Servlets容器，它对Web服务的定义
+    com.htjn.assetManagement.filter包中。由于Spring Boot内部实现了Servlets容器，它对Web服务的定义
     与传统不同，它没有web.xml配置文件，而是通过Java类来配置，这也是Spring Boot的特征之一。
-    而这个类在本系统中是com.phy.license.core.FilterConfiguration。
     
     定义过滤器的关键是生成FilterRegistrationBean，并通过@Bean注解来完成最后一道工序。其中，
     方法名是什么没有任何联系，重要的是方法体内对过滤器的属性设置。
