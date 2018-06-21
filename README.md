@@ -8,7 +8,7 @@
 - mysql(数据库)
 
 
-    项目以Spring组件为核心，集成了Swagger、JPA，数据库采用PostgreSQL。
+    项目以Spring组件为核心，集成了Swagger、JPA，数据库采用mysql。
 
 
 ## 开发指南
@@ -99,7 +99,7 @@
     核心配置文件： application.properties
     日志配置文件： logback-spring.xml
 #### swagger
-    访问api接口文档： localhost:8888/swagger-ui.html
+    访问api接口文档： IP:PORT/{CONTEXT-PATH}/swagger-ui.html
     需登录： 用户名:admin 密码：abcd1234    
 
  **_暂且就这些， 未完待续。_**
